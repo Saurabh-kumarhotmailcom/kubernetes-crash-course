@@ -1,0 +1,132 @@
+--- 
+apiVersion: v1
+items: 
+  - 
+    apiVersion: v1
+    kind: Service
+    metadata: 
+      labels: 
+        io.kompose.service: mysql
+      name: mysql
+    spec: 
+      type: LoadBalancer
+      ports: 
+        - 
+          name: "3306"
+          port: 3306
+          targetPort: 3306
+      selector: 
+        io.kompose.service: mysql
+  - 
+    apiVersion: v1
+    kind: Service
+    metadata: 
+      labels: 
+        io.kompose.service: todo-web-application
+      name: todo-web-application
+    spec: 
+      type: LoadBalancer
+      ports: 
+        - 
+          name: "8080"
+          port: 8080
+          targetPort: 8080
+      selector: 
+        io.kompose.service: todo-web-application
+  - 
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    metadata: 
+      labels: 
+        io.kompose.service: mysql
+      name: mysql
+    spec: 
+      replicas: 1
+      strategy: 
+        type: Recreate
+      template: 
+        metadata: 
+          labels: 
+            io.kompose.service: mysql
+        spec: 
+          containers: 
+            - 
+              env: 
+                - 
+                  name: MYSQL_DATABASE
+                  value: todos
+                - 
+                  name: MYSQL_PASSWORD
+                  value: dummytodos
+                - 
+                  name: MYSQL_ROOT_PASSWORD
+                  value: dummypassword
+                - 
+                  name: MYSQL_USER
+                  value: todos-user
+              image: "mysql:5.7"
+              name: mysql
+              ports: 
+                - 
+                  containerPort: 3306
+              volumeMounts: 
+                - 
+                  mountPath: /var/lib/mysql
+                  name: mysql-database-data-volume
+          restartPolicy: Always
+          volumes: 
+            - 
+              name: mysql-database-data-volume
+              persistentVolumeClaim: 
+                claimName: mysql-database-data-volume
+  - 
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata: 
+      labels: 
+        io.kompose.service: mysql-database-data-volume
+      name: mysql-database-data-volume
+    spec: 
+      accessModes: 
+        - ReadWriteOnce
+      resources: 
+        requests: 
+          storage: 100Mi
+  - 
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    metadata: 
+      labels: 
+        io.kompose.service: todo-web-application
+      name: todo-web-application
+    spec: 
+      replicas: 1
+      template: 
+        metadata: 
+          labels: 
+            io.kompose.service: todo-web-application
+        spec: 
+          containers: 
+            - 
+              env: 
+                - 
+                  name: RDS_DB_NAME
+                  value: todos
+                - 
+                  name: RDS_HOSTNAME
+                  value: mysql
+                - 
+                  name: RDS_PASSWORD
+                  value: dummytodos
+                - 
+                  name: RDS_PORT
+                  value: "3306"
+                - 
+                  name: RDS_USERNAME
+                  value: todos-user
+              image: "saurabhkumardocker/todo-web-application-mysql:0.0.1-SNAPSHOT"
+              name: todo-web-application
+              ports: 
+                - 
+                  containerPort: 8080
+          restartPolicy: Always
