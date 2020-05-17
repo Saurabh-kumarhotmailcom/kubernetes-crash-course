@@ -22,12 +22,12 @@ spec:
         app: currency-conversion
     spec:
       containers:
-      - image: in28min/currency-conversion:2.0.0-RELEASE #CHANGE
+      - image: saurabhkumardocker/currency-conversion:3.0.1-RELEASE #CHANGE
         imagePullPolicy: Always #CHANGE
         name: currency-conversion
         env:   #CHANGE
-          - name: CURRENCY_EXCHANGE_URI
-            value: http://currency-exchange
+#          - name: CURRENCY_EXCHANGE_URI
+#            value: http://currency-exchange
           - name: SPRING_CLOUD_GCP_TRACE_ENABLED
             value: "true"
       restartPolicy: Always
