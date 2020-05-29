@@ -3,3 +3,4 @@
 09-currency-exchange-microservice-istio/.project
 09-currency-exchange-microservice-istio/.settings/
 10-currency-conversion-microservice-istio/.settings/
+*.project
