@@ -14,24 +14,24 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-world-rest-api-v1
+  name: hello-world-rest-api-v4
   labels:
-    version: v1
+    version: v4
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: hello-world-rest-api
-      version: v1
+      version: v4
   template:
     metadata:
       labels:
         app: hello-world-rest-api
-        version: v1
+        version: v4
     spec:
       containers:
         - name: hello-world-rest-api
-          image: in28min/hello-world-rest-api:0.0.1.RELEASE
+          image: saurabhkumardocker/hello-world-rest-api:0.0.4-SNAPSHOT
           imagePullPolicy: IfNotPresent #Always
           ports:
             - containerPort: 8080
@@ -39,24 +39,24 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-world-rest-api-v2
+  name: hello-world-rest-api-v5
   labels:
-    version: v2
+    version: v5
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: hello-world-rest-api
-      version: v2
+      version: v5
   template:
     metadata:
       labels:
         app: hello-world-rest-api
-        version: v2
+        version: v5
     spec:
       containers:
         - name: hello-world-rest-api
-          image: in28min/hello-world-rest-api:0.0.2.RELEASE
+          image: saurabhkumardocker/hello-world-rest-api:0.0.5-SNAPSHOT
           imagePullPolicy: IfNotPresent #Always
           ports:
             - containerPort: 8080

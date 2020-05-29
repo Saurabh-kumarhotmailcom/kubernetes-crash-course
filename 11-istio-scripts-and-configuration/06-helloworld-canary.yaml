@@ -14,11 +14,11 @@ spec:
       route:
         - destination:
             host: hello-world-rest-api
-            subset: v1
+            subset: v4
           weight: 10
         - destination:
             host: hello-world-rest-api
-            subset: v2
+            subset: v5
           weight: 90
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -28,9 +28,9 @@ metadata:
 spec:
   host: hello-world-rest-api
   subsets:
-    - name: v1
+    - name: v4
       labels:
-        version: v1
-    - name: v2
+        version: v4
+    - name: v5
       labels:
-        version: v2
+        version: v5
