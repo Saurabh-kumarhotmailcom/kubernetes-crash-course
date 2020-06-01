@@ -6,5 +6,5 @@ data:
   RDS_USERNAME: todos-user
 kind: ConfigMap
 metadata:
-  name: todo-web-application-config
+  name: todo-web-app-config
   namespace: default
